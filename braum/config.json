@@ -1,16 +1,16 @@
 {
   "mail": {
-  "receive_mail": ["ichaff@163.com", "18307854083@163.com"],
+  "receive_mail": ["test1@163.com", "test2@163.com"],
   "auth_mail_setting": {
-      "mail_host": "smtp.qq.com",
-      "mail_user": "2279746031",
-      "mail_pass": "ktbygcjzbrandjde",
-      "mail_sender": "2279746031@qq.com"
+      "mail_host": "smtp.xx.com",
+      "mail_user": "xxxx",
+      "mail_pass": "yyyy",
+      "mail_sender": "xxxx@xx.com"
     }
   },
   "dgsdk": {
-      "receive_phone": ["18176708714", "18307854083"],
-      "sdk_api": "http://10.147.2.198:8090/mas-sdk-message/sdkTestMessageServlet"
+      "receive_phone": ["xxxxxxxxxxx", "yyyyyyyyyyy"],
+      "sdk_api": "http://192.168.0.30:8090/mas-sdk-message/sdkTestMessageServlet"
   },
   "alert_method": "dgsdak"
 }
