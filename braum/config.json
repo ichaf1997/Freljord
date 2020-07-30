@@ -1,0 +1,16 @@
+{
+  "mail": {
+  "receive_mail": ["ichaff@163.com", "18307854083@163.com"],
+  "auth_mail_setting": {
+      "mail_host": "smtp.qq.com",
+      "mail_user": "2279746031",
+      "mail_pass": "ktbygcjzbrandjde",
+      "mail_sender": "2279746031@qq.com"
+    }
+  },
+  "dgsdk": {
+      "receive_phone": ["18176708714", "18307854083"],
+      "sdk_api": "http://10.147.2.198:8090/mas-sdk-message/sdkTestMessageServlet"
+  },
+  "alert_method": "dgsdak"
+}
