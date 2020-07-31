@@ -12,5 +12,6 @@
       "receive_phone": ["xxxxxxxxxxx", "yyyyyyyyyyy"],
       "sdk_api": "http://192.168.0.30:8090/mas-sdk-message/sdkTestMessageServlet"
   },
-  "alert_method": "dgsdak"
+  "alert_method": "dgsdak",
+  "log_level": "INFO"
 }

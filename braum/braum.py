@@ -10,6 +10,7 @@ import logging
 import time
 import smtplib
 import json
+import traceback
 from email.mime.text import MIMEText
 from email.header import Header
 from telnetlib import Telnet
@@ -21,8 +22,8 @@ class Head:
     def version(self):
         describe = "Braum @ Freljord is a Script for Checking Services Status and Alert automatically"
         author = "Gopppog"
-        build_ver = "1.0"
-        build_date = "2020.07.29"
+        build_ver = "1.1"
+        build_date = "2020.07.31"
         contact = "ichaff@163.com"
         print(describe)
         print("Version " + build_ver + " - build on " + build_date)
@@ -40,10 +41,9 @@ class Head:
     def getlog(self, log_path=None):
         log_format = "%(message)s"
         if log_path:
-            # log_path = "/var/log/braum.log"
-            logging.basicConfig(filename=log_path, level=logging.DEBUG, format=log_format)
+            logging.basicConfig(filename=log_path, level=logging.INFO, format=log_format)
         else:
-            logging.basicConfig(level=logging.DEBUG, format=log_format)
+            logging.basicConfig(level=logging.INFO, format=log_format)
         return logging.getLogger()
 
     def getjson(self, path):
@@ -72,7 +72,9 @@ class GetServiceStatus:
                 with Telnet(host, port=p, timeout=time_out) as tel:
                     return True
             except:
+                e = traceback.format_exc()
                 pass
+        logger.debug(e)
         return False
 
     def url(self, u):
@@ -85,7 +87,9 @@ class GetServiceStatus:
                     if resp.code == 200:
                         return True
             except:
+                e = traceback.format_exc()
                 pass
+        logger.debug(e)
         return False
 
 
@@ -97,15 +101,10 @@ class Items:
         self.url_services = [ name for name in self.services if items["SERVICES"][name]["check_method"] == "url" ]
         self.ping_services = [ name for name in self.services if items["SERVICES"][name]["check_method"] == "ping" ]
         for method in config:
-            if method == "alert_method":
-                continue
             if  method == config["alert_method"]:
                 self.alertness = method
                 break
             self.alertness = None
-
-    def test(self):
-        print(self.alertness)
 
     def alertsend(self, msg):
         if self.alertness == None:
@@ -181,6 +180,7 @@ class Alert:
             smtpObj.sendmail(auth["mail_sender"], rec, message.as_string())
             return True
         except:
+            logger.debug(traceback.format_exc())
             return False
 
     def dgsdk(self, mesg, rec, api):
@@ -191,6 +191,7 @@ class Alert:
             if res_json["sendStatusCode"] == "1":
                 return True
         except:
+            logger.debug(traceback.format_exc())
             return False
 
 if __name__ =='__main__':
@@ -214,7 +215,8 @@ if __name__ =='__main__':
         config = Head().getjson(Path(args.config))
     else:
         config = Head().getjson(Path(os.path.join(os.path.dirname(__file__), "config.json")))
-
+    if config["log_level"] == "DEBUG":
+        logger.setLevel(logging.DEBUG)
     logger.info("xxxxxx[巡检开始]xxxxxx <-> 当前时间 {:%Y-%m-%d %H:%M:%S}".format(datetime.datetime.today()))
     t0 = time.time()
     failed_count = 0
