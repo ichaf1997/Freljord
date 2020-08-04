@@ -22,8 +22,8 @@ class Head:
     def version(self):
         describe = "Braum @ Freljord is a Script for Checking Services Status and Alert automatically"
         author = "Gopppog"
-        build_ver = "1.1"
-        build_date = "2020.07.31"
+        build_ver = "1.2"
+        build_date = "2020.08.04"
         contact = "ichaff@163.com"
         print(describe)
         print("Version " + build_ver + " - build on " + build_date)
@@ -58,15 +58,18 @@ class GetServiceStatus:
     def ping(self, host):
         retry = 3
         time_out = 3
+        interval = 10
         cmd = "ping " + host + " -c 1 -W " + time_out + " >/dev/null 2>&1"
         for n in range(retry):
             if os.system(cmd) == 0:
                 return True
+            time.sleep(interval)
         return False
 
     def telnet(self, host, p):
         retry = 3
         time_out = 3
+        interval = 10
         for n in range(retry):
             try:
                 with Telnet(host, port=p, timeout=time_out) as tel:
@@ -74,6 +77,7 @@ class GetServiceStatus:
             except:
                 e = traceback.format_exc()
                 pass
+            time.sleep(interval)
         logger.debug(e)
         return False
 
@@ -81,6 +85,7 @@ class GetServiceStatus:
         ssl._create_default_https_context = ssl._create_unverified_context
         retry = 3
         time_out = 3
+        interval = 10
         for n in range(retry):
             try:
                 with request.urlopen(u, timeout=time_out) as resp:
@@ -89,6 +94,7 @@ class GetServiceStatus:
             except:
                 e = traceback.format_exc()
                 pass
+            time.sleep(interval)
         logger.debug(e)
         return False
 
