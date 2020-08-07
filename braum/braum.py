@@ -89,7 +89,7 @@ class GetServiceStatus:
         for n in range(retry):
             try:
                 with request.urlopen(u, timeout=time_out) as resp:
-                    if resp.code == 200:
+                    if resp.code < 500:
                         return True
             except:
                 e = traceback.format_exc()
